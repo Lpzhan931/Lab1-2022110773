@@ -230,12 +230,15 @@ public:
     void calculatePageRank(double damping = 0.85, int iterations = 100) {
         unordered_map<string, double> pr;
         int N = adjList.size();
+        // 初始均分
         for (const auto& [node, _] : adjList) {
             pr[node] = 1.0 / N;
         }
 
+        // 开始迭代
         for (int i = 0; i < iterations; ++i) {
             unordered_map<string, double> new_pr;
+            // 求和无出边节点总PR值（均分给所有点）
             double dangling_sum = 0.0;
             for (const auto& [node, _] : adjList) {
                 if (outDegree[node] == 0) {
@@ -243,6 +246,7 @@ public:
                 }
             }
 
+            // 每个点的新PR值由两部分：入边分来的、无出边节点分来的
             for (const auto& [node, _] : adjList) {
                 double sum = 0.0;
                 for (const string& in_node : inEdges[node]) {
@@ -300,7 +304,11 @@ public:
             }
 
             pair<string, string> edge = {current, next};
-            if (visitedEdges.count(edge)) break;
+            if (visitedEdges.count(edge)) {
+//                cout << "Last: " << next << "\n";
+                break;
+            }
+
             visitedEdges.insert(edge);
 
             path.push_back(next);
