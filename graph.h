@@ -19,6 +19,8 @@
 #include <unordered_set>
 #include <iostream>
 #include <utility>
+#include <functional>
+
 using namespace std;
 
 vector<string> processFile(const string& filename);
@@ -224,6 +226,12 @@ public:
         }
     }
 
+    function<string()> inputProvider = []() {
+        string input;
+        getline(cin, input);
+        return input;
+    };
+
     string randomWalk() {
         if (adjList.empty()) return "";
 
@@ -274,8 +282,9 @@ public:
             cout << "Current path: ";
             for (const string& node : path) cout << node << " ";
             cout << "\nContinue? (Y/n): ";
-            string input;
-            getline(cin, input);
+//            string input;
+//            getline(cin, input);
+            string input = inputProvider();
             if (!input.empty() && tolower(input[0]) == 'n') break;
         }
 
@@ -286,6 +295,8 @@ public:
         out.close();
         return "random_walk.txt";
     }
+
+
 
 private:
     vector<string> processInputText(const string& text) {
