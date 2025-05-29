@@ -9,4 +9,4 @@ include_directories(googletest/include googletest)
 add_executable(test main.cpp
         graph.h
         test_b.cpp)
-target_link_libraries(test gtest gtest_main)
+target_link_libraries(test gtest gtest_main )
